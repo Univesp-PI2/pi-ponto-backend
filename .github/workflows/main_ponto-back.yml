@@ -29,10 +29,7 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      
+        
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
@@ -68,9 +65,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_991656A8972C4A3CA4B0DF2AE6C9FD44 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B6C6676DB1C1437F84C25A77C25681BB }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D4890077B6134E9CAB81963E0A1CDF51 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_BF1DF027CCFA4312A2B99169E66D9043 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0DDF7AF6DCB2495F8DEDE1213EC0E32C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1BFEBCC8F5F94DBB964AEFF94211D3D3 }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
