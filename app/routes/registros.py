@@ -1,11 +1,22 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 from ..models import Ponto, User
 from sqlalchemy import and_
 from .. import db
 
 bp = Blueprint('registros', __name__, url_prefix='/registro')
 
+@bp.route('/', methods=['OPTIONS'])
+@jwt_required()
+def registro_options():
+    response = jsonify({'message': 'Options request successful'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    return response, 200
+
 @bp.route('/salvar', methods=['POST'])
+@jwt_required()
 def salvar_registro():
 
     data = request.json
@@ -36,6 +47,7 @@ def salvar_registro():
         return jsonify({'error': f'Erro ao salvar tempo: {error}'}), 500
 
 @bp.route('/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_registros_by_funcionario(user_id):
     try:
 
@@ -61,6 +73,7 @@ def get_registros_by_funcionario(user_id):
         return jsonify({'error': f'Erro ao obter registros: {error}'}), 500
 
 @bp.route('/', methods=['GET'])
+@jwt_required()
 def registro_by_funcionario_and_periodo():
     periodo = request.args.get('periodo')
     funcionario = request.args.get('funcionario')

@@ -17,6 +17,16 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nome': self.nome,
+            'sobrenome': self.sobrenome,
+            'email': self.email,
+            'cargo': self.cargo,
+            'role_id': self.role_id
+        }
+
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)

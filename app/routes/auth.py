@@ -5,7 +5,7 @@ from .. import db
 
 bp = Blueprint('auth', __name__, url_prefix='/login')
 
-@bp.route('/', methods=['POST'])
+@bp.route('', methods=['POST'])
 def login():
     data = request.json
     print(data)
@@ -20,5 +20,6 @@ def login():
         print(user.check_password(password))
         role = Role.query.get(user.role_id).role_name
         access_token = create_access_token(identity={'id': user.id, 'role': role})
-        return jsonify({'message': 'Usuário logado com sucesso', 'success': True, 'token': access_token, 'role': role, 'id': user.id}), 200
+        print(access_token)
+        return jsonify({'message': 'Usuário logado com sucesso', 'success': True, 'accessToken': access_token, 'role': role, 'id': user.id, 'nome': user.nome }), 200
     return jsonify({'message': 'Usuário e/ou senha inválidos'}), 401
