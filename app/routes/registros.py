@@ -89,7 +89,7 @@ def registro_by_funcionario_and_periodo():
         if funcionario:
             funcionario_param = f"%{funcionario}%"
             query = query.filter(
-                (User.nome.like(funcionario_param) | User.sobrenome.like(funcionario_param))
+                (User.nome.ilike(funcionario_param) | User.sobrenome.ilike(funcionario_param))
             ).filter(
                 and_(Ponto.data.between(periodo.split(',')[1], periodo.split(',')[0]))
             )

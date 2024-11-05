@@ -55,6 +55,6 @@ def get_funcionarios_by_name():
 
     nome_param = f"%{nome}%"
 
-    users = User.query.filter(User.nome.like(nome_param) | User.sobrenome.like(nome_param)).all()
+    users = User.query.filter(User.nome.ilike(nome_param) | User.sobrenome.ilike(nome_param)).all()
 
     return jsonify([user.to_dict() for user in users]), 200
