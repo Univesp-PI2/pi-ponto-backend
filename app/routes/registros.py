@@ -91,11 +91,11 @@ def registro_by_funcionario_and_periodo():
             query = query.filter(
                 (User.nome.ilike(funcionario_param) | User.sobrenome.ilike(funcionario_param))
             ).filter(
-                and_(Ponto.data.between(periodo.split(',')[1], periodo.split(',')[0]))
+                and_(Ponto.data.between(periodo.split(',')[0], periodo.split(',')[1]))
             )
         else:
             query = query.filter(
-                Ponto.data.between(periodo.split(',')[1], periodo.split(',')[0])
+                Ponto.data.between(periodo.split(',')[0], periodo.split(',')[1])
             )
             print(query)
 
