@@ -9,6 +9,9 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+
+        print(f"SQLALCHEMY_DATABASE_URI: {app.config['SQLALCHEMY_DATABASE_URI']}")
+        print(f"SECRET_KEY: {app.config['SECRET_KEY']}")
     
     db.init_app(app)
     JWTManager(app)
