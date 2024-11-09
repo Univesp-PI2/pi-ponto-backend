@@ -10,12 +10,13 @@ def login():
     data = request.json
     print(data)
     if not data or not 'email' in data or not 'password' in data:
-        return jsonify({"msg": "Missing email or password"}), 400
+        return jsonify({"msg": "Email ou senha não informados"}), 400
     
     email = data.get('email')
     password = data.get('password')
     
     user = User.query.filter_by(email=email).first()
+    print(user)
     if user and user.check_password(password):
         print(user.check_password(password))
         role = Role.query.get(user.role_id).role_name

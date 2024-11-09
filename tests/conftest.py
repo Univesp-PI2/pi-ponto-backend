@@ -32,6 +32,20 @@ def client():
             user_role = Role(role_name='user')
             db.session.add(user_role)
         db.session.commit()
+
+        # Inserindo um usuário diretamente no banco de dados
+        # Apesar de não ser a melhor prática, é útil para testes
+        user = User(
+            nome='Jonathan',
+            sobrenome='Lucas',
+            email='johnathan@exemplo.com',
+            cargo='Tester',
+            role_id=1  # ID do role de adminidtrador (admin)
+        )
+        user.set_password('password123')
+        db.session.add(user)
+        db.session.commit()
+
         yield app.test_client()
         db.session.remove()
         db.drop_all()
@@ -89,23 +103,9 @@ def test_client(app):
 @pytest.fixture
 def auth_headers(client):
     with client.application.app_context():
-        # Inserindo um usuário diretamente no banco de dados
-        # Apesar de não ser a melhor prática, é útil para testes
-        user = User(
-            nome='Jonathan',
-            sobrenome='Lucas',
-            email='johnathan.doe@example.com',
-            cargo='Tester',
-            role_id=1  # ID do role de adminidtrador (admin)
-        )
-        user.set_password('password123')
-        db.session.add(user)
-        db.session.commit()
-
-        # Now login the user to get the auth token
         # Logando o usuário para obter o token de autenticação
         login_data = {
-            'email': 'johnathan.doe@example.com',
+            'email': 'johnathan@exemplo.com',
             'password': 'password123'
         }
         response = client.post('/login', json=login_data)
