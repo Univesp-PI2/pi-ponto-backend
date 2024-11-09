@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required
 from ..models import Ponto, User
 from sqlalchemy import and_
 from .. import db
+from datetime import datetime
 
 bp = Blueprint('registros', __name__, url_prefix='/registro')
 
@@ -33,12 +34,17 @@ def salvar_registro():
         return jsonify({'error': 'Campo campo_tempo inválido. Deve ser entrada, intervalo, retorno ou saida'}), 400
 
     try:
-        ponto = Ponto.query.filter_by(user_id=user, data=dia).first()
+        
+        dia_date_object = datetime.strptime(dia, '%Y-%m-%d').date()
+     
+        valor_tempo_time_object = datetime.strptime(valor_tempo, '%H:%M:%S').time()
+
+        ponto = Ponto.query.filter_by(user_id=user, data=dia_date_object).first()
         if not ponto:
-            ponto = Ponto(user_id=user, data=dia)
+            ponto = Ponto(user_id=user, data=dia_date_object)
             db.session.add(ponto)
         
-        setattr(ponto, campo_tempo, valor_tempo)
+        setattr(ponto, campo_tempo, valor_tempo_time_object)
         db.session.commit()
         return jsonify({'message': 'Tempo salvo com sucesso'}), 200
 

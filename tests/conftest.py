@@ -17,9 +17,12 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def client():
-    app = create_app()
-    app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+    app = create_app({
+        'TESTING': True,
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'SECRET_KEY': 'super-secret',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    })
     with app.app_context():
         db.create_all()
         if not Role.query.filter_by(role_name='admin').first():
