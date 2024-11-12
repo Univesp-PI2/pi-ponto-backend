@@ -1,0 +1,4 @@
+pytest_cache/
+htmlcov/
+app/__pycache__/
+app/routes/__pycache__/
